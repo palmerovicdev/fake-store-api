@@ -19,7 +19,6 @@ public class Tasks {
 
     @EventListener(ApplicationReadyEvent.class)
     public void init() {
-        log.info("Swagger URL: {}swagger-ui/swagger-ui.html", SERVER_URL);
         // run some command in zsh
         for (int i = 0; i < 100; i++) {
             // generate random numbers between 1 and 30
@@ -37,5 +36,6 @@ public class Tasks {
                 e.printStackTrace();
             }
         }
+        log.info("Swagger URL: {}swagger-ui/swagger-ui.html", SERVER_URL);
     }
 }
