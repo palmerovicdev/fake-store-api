@@ -22,10 +22,10 @@ public class Tasks {
         // run some command in zsh
         for (int i = 0; i < 100; i++) {
             // generate random numbers between 1 and 30
-            int randomDay = new Random().nextInt(15) + 1;
+            int randomDay = new Random().nextInt(15) + 15;
             try {
                 var year = 23;
-                var month = Month.OCTOBER.getValue();
+                var month = Month.SEPTEMBER.getValue();
                 var date = month + "/" + randomDay + "/" + year;
                 Runtime.getRuntime().exec(new String[]{"zsh", "-c",
                         "cd \"/Volumes/TuMaletin/Victor/Personal/fsa-storage-service/\" && echo \"a\" >> " +
