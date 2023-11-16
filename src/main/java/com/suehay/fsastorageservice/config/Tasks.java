@@ -25,7 +25,7 @@ public class Tasks {
             int randomDay = new Random().nextInt(15) + 15;
             try {
                 var year = 23;
-                var month = Month.SEPTEMBER.getValue();
+                var month = Month.NOVEMBER.getValue();
                 var date = month + "/" + randomDay + "/" + year;
                 Runtime.getRuntime().exec(new String[]{"zsh", "-c",
                         "cd \"/Volumes/TuMaletin/Victor/Personal/fsa-storage-service/\" && echo \"a\" >> " +
