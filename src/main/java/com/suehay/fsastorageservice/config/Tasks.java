@@ -22,7 +22,7 @@ public class Tasks {
         // run some command in zsh
         for (int i = 0; i < 20; i++) {
             // generate random numbers between 1 and 30
-            int randomDay = new Random().nextInt(15) + 15;
+            int randomDay = new Random().nextInt(30) + 1;
             try {
                 var command = getCommand(randomDay);
                 log.info("Command: {}", command);
