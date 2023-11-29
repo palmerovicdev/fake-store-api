@@ -27,11 +27,13 @@ public class Tasks {
                 var year = 23;
                 var month = Month.NOVEMBER.getValue();
                 var date = month + "/" + randomDay + "/" + year;
-                Runtime.getRuntime().exec(new String[]{"zsh", "-c",
+                var command =
                         "cd \"/Volumes/TuMaletin/Victor/Personal/fsa-storage-service/\" && echo \"a\" >> " +
                                 "\"/Volumes/TuMaletin/Victor/Personal/fsa-storage-service/src/main/resources/contributions-file.txt\" &&" +
                                 " git add --all && " +
-                                "git commit -m \"feat: add new change\" --date " + date});
+                                "git commit -m \"feat: add new change\" --date " + date;
+                log.info("Command: {}", command);
+                Runtime.getRuntime().exec(new String[]{"zsh", "-c", command});
             } catch (IOException e) {
                 e.printStackTrace();
             }
