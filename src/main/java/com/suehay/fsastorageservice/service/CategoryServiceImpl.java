@@ -64,4 +64,20 @@ public class CategoryServiceImpl implements CategoryService {
         }
         return response;
     }
+
+    @Override
+    public GenericResponse<Category> getCategoryByName(String name) {
+        var response = new GenericResponse<Category>();
+        var category = categoryRepository.findByName(name);
+        if (category.isPresent()) {
+            response.setData(category.get());
+            response.setMessage("Category found with name: " + name);
+            response.setStatus("200");
+        } else {
+            response.setMessage("No category found with name: " + name);
+            response.setStatus("404");
+            response.setError("Not Found");
+        }
+        return response;
+    }
 }
