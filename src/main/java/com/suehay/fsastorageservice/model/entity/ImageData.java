@@ -19,6 +19,9 @@ public class ImageData {
     @Column(name = "name", nullable = false)
     private String name;
 
+    @Column(name = "address", nullable = false)
+    private String address;
+
     @Column(name = "type", nullable = false)
     private String type;
 
