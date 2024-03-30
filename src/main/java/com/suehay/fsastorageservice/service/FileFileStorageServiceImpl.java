@@ -27,9 +27,10 @@ public class FileFileStorageServiceImpl implements FileStorageService {
                                  .name(file.name())
                                  .type(file.type())
                                  .data(imageUtils.compressImage(file.data()))
+                                 .address(appAddress + fileStorageAddres + "find?name=" + file.name())
                                  .build();
         var data = imageDataRepository.save(imageData);
-        return new GenericResponse<>("Success", "File saved successfully", "200", appAddress + fileStorageAddres + "find?name=" + data.getName());
+        return new GenericResponse<>("Success", "File saved successfully", "200", data.getAddress());
 
     }
 
@@ -69,5 +70,12 @@ public class FileFileStorageServiceImpl implements FileStorageService {
                            .ifPresent(imageDataRepository::delete);
 
         log.info("Image deleted successfully");
+    }
+
+    @Override
+    public String getAddressByName(String name) {
+        return imageDataRepository.findByName(name)
+                                 .map(ImageData::getAddress)
+                                 .orElse(null);
     }
 }

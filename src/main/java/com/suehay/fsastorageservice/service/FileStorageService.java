@@ -11,4 +11,5 @@ public interface FileStorageService {
     GenericResponse<ImageData> findByName(String name);
     GenericResponse<List<ImageData>> findAllByNameIn(List<String> names);
     void deleteByName(String name);
+    String getAddressByName(String name);
 }
