@@ -11,7 +11,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Set;
 
 @RestController
 @RequestMapping("/storage")
@@ -40,7 +39,8 @@ public class FileStorageController {
             @ApiResponse(responseCode = "400", description = "Error finding image"),
             @ApiResponse(responseCode = "500", description = "Error finding image")
     })
-    @PostMapping("/find")
+
+    @GetMapping("/find")
     public ResponseEntity<GenericResponse<ImageData>> find(@RequestParam("name") String name) {
         var response = fileStorageService.findByName(name);
         if (response.getError() != null) {
