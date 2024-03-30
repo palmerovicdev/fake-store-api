@@ -11,25 +11,25 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
 @Slf4j
-public class StorageServiceImpl implements StorageService {
+public class FileFileStorageServiceImpl implements FileStorageService {
     private final ImageDataRepository imageDataRepository;
     private final ImageUtils imageUtils;
     private @Value("${spring.application.address}") String appAddress;
+    private @Value("${spring.feature.file-storage}") String fileStorageAddres;
 
     @Override
     public GenericResponse<String> save(UploadRequest file) {
         var imageData = ImageData.builder()
-                                       .name(file.name())
-                                       .type(file.type())
-                                       .data(imageUtils.compressImage(file.data()))
-                                       .build();
+                                 .name(file.name())
+                                 .type(file.type())
+                                 .data(imageUtils.compressImage(file.data()))
+                                 .build();
         var data = imageDataRepository.save(imageData);
-        return new GenericResponse<>("Success", "File saved successfully", "200", appAddress+"find?name="+data.getName());
+        return new GenericResponse<>("Success", "File saved successfully", "200", appAddress + fileStorageAddres + "find?name=" + data.getName());
 
     }
 

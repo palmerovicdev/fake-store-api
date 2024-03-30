@@ -3,7 +3,7 @@ package com.suehay.fsastorageservice.controller;
 import com.suehay.fsastorageservice.model.entity.ImageData;
 import com.suehay.fsastorageservice.model.request.UploadRequest;
 import com.suehay.fsastorageservice.model.response.GenericResponse;
-import com.suehay.fsastorageservice.service.StorageService;
+import com.suehay.fsastorageservice.service.FileStorageService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import lombok.RequiredArgsConstructor;
@@ -15,9 +15,9 @@ import java.util.List;
 @RestController
 @RequestMapping("/storage")
 @RequiredArgsConstructor
-public class StorageController {
+public class FileStorageController {
 
-    private final StorageService storageService;
+    private final FileStorageService fileStorageService;
 
     @Operation(summary = "Save file", description = "Save file to database", responses = {
             @ApiResponse(responseCode = "200", description = "File saved successfully"),
@@ -26,7 +26,7 @@ public class StorageController {
     })
     @PostMapping("/save")
     public ResponseEntity<GenericResponse<String>> save(@RequestParam("file") UploadRequest file) {
-        var response = storageService.save(file);
+        var response = fileStorageService.save(file);
         if (response.getError() != null) {
             var status = response.getStatus().equals("500") ? 500 : 400;
             return ResponseEntity.status(status).body(response);
@@ -41,7 +41,7 @@ public class StorageController {
     })
     @PostMapping("/find")
     public ResponseEntity<GenericResponse<ImageData>> find(@RequestParam("name") String name) {
-        var response = storageService.findByName(name);
+        var response = fileStorageService.findByName(name);
         if (response.getError() != null) {
             var status = response.getStatus().equals("500") ? 500 : 400;
             return ResponseEntity.status(status).body(response);
@@ -56,7 +56,7 @@ public class StorageController {
     })
     @GetMapping("/findAllIn")
     public ResponseEntity<GenericResponse<?>> findAll(@RequestParam("names") List<String> names) {
-        var response = storageService.findAllByNameIn(names);
+        var response = fileStorageService.findAllByNameIn(names);
         if (response.getError() != null) {
             var status = response.getStatus().equals("500") ? 500 : 400;
             return ResponseEntity.status(status).body(response);
@@ -71,7 +71,7 @@ public class StorageController {
     })
     @PostMapping("/delete")
     public ResponseEntity<GenericResponse<?>> delete(@RequestParam("name") String name) {
-        storageService.deleteByName(name);
+        fileStorageService.deleteByName(name);
         return ResponseEntity.ok(new GenericResponse<>("Success", "File deleted successfully", "200", null));
     }
 }
