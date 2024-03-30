@@ -12,4 +12,10 @@ public interface CategoryService {
     GenericResponse<Category> getCategoryByName(String name);
 
     GenericResponse<Page<Category>> getCategories(GenericPageRequest<String> request);
+
+    GenericResponse<Category> deleteCategoryByName(String name);
+
+    GenericResponse<Category> deleteCategory(String id);
+
+    GenericResponse<Category> updateCategory(Category category);
 }

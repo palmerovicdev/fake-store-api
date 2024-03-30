@@ -66,4 +66,22 @@ public class ProductController {
     public ResponseEntity<GenericResponse<Product>> updateProduct(@RequestBody Product product) {
         return ResponseEntity.ok(productService.updateProduct(product));
     }
+
+    @Operation(summary = "Delete product", description = "Delete product", responses = {
+            @ApiResponse(responseCode = "200", description = "Product deleted"),
+            @ApiResponse(responseCode = "500", description = "Error deleting product")
+    })
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<GenericResponse<Product>> deleteProduct(@PathVariable String id) {
+        return ResponseEntity.ok(productService.deleteProduct(id));
+    }
+
+    @Operation(summary = "Delete product by name", description = "Delete product by name", responses = {
+            @ApiResponse(responseCode = "200", description = "Product deleted"),
+            @ApiResponse(responseCode = "500", description = "Error deleting product")
+    })
+    @DeleteMapping("/delete/{name}")
+    public ResponseEntity<GenericResponse<String>> deleteProductByName(@PathVariable String name) {
+        return ResponseEntity.ok(productService.deleteProductByName(name));
+    }
 }

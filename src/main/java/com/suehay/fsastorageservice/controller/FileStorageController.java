@@ -70,7 +70,7 @@ public class FileStorageController {
             @ApiResponse(responseCode = "400", description = "Error deleting file"),
             @ApiResponse(responseCode = "500", description = "Error deleting file")
     })
-    @PostMapping("/delete")
+    @DeleteMapping("/delete")
     public ResponseEntity<GenericResponse<?>> delete(@RequestParam("name") String name) {
         fileStorageService.deleteByName(name);
         return ResponseEntity.ok(new GenericResponse<>("Success", "File deleted successfully", "200", null));

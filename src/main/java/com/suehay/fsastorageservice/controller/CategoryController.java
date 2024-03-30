@@ -45,4 +45,35 @@ public class CategoryController {
     public ResponseEntity<GenericResponse<?>> getCategories(@RequestBody GenericPageRequest<String> filter) {
         return ResponseEntity.ok(categoryService.getCategories(filter));
     }
+
+    @Operation(summary = "Update category", description = "Update category", responses = {
+            @ApiResponse(responseCode = "200", description = "Category updated"),
+            @ApiResponse(responseCode = "404", description = "No category found"),
+            @ApiResponse(responseCode = "500", description = "Error updating category")
+    })
+    @PutMapping("/update")
+    public ResponseEntity<GenericResponse<Category>> updateCategory(@RequestBody Category category) {
+        return ResponseEntity.ok(categoryService.updateCategory(category));
+    }
+
+    @Operation(summary = "Delete category", description = "Delete category", responses = {
+            @ApiResponse(responseCode = "200", description = "Category deleted"),
+            @ApiResponse(responseCode = "404", description = "No category found"),
+            @ApiResponse(responseCode = "500", description = "Error deleting category")
+    })
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<GenericResponse<Category>> deleteCategory(@PathVariable String id) {
+        return ResponseEntity.ok(categoryService.deleteCategory(id));
+    }
+
+    @Operation(summary = "Delete category by name", description = "Delete category by name", responses = {
+            @ApiResponse(responseCode = "200", description = "Category deleted"),
+            @ApiResponse(responseCode = "404", description = "No category found"),
+            @ApiResponse(responseCode = "500", description = "Error deleting category")
+    })
+    @DeleteMapping("/delete/{name}")
+    public ResponseEntity<GenericResponse<Category>> deleteCategoryByName(@PathVariable String name) {
+        return ResponseEntity.ok(categoryService.deleteCategoryByName(name));
+    }
+
 }
