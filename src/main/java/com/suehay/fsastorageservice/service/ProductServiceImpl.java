@@ -13,10 +13,9 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 @Slf4j
-public class ProductServiceImpl implements ProductService {
-
+public class ProductServiceImpl implements ProductService{
+    private final FileStorageService fileStorageService;
     private final ProductRepository productRepository;
-
     @Override
     public GenericResponse<Page<Product>> getProducts(GenericPageRequest<String> request) {
         var response = new GenericResponse<Page<Product>>();
@@ -55,6 +54,8 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public GenericResponse<Product> saveProduct(Product product) {
         var response = new GenericResponse<Product>();
+        var addresses = fileStorageService.getAddressByNames(product.getImages());
+        product.setImages(addresses);
         response.setData(productRepository.save(product));
         response.setMessage("Product saved with id: " + product.getId());
         response.setStatus("201");

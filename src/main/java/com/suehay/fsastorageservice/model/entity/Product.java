@@ -4,9 +4,8 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.HashSet;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 @Getter
 @Setter
@@ -30,7 +29,7 @@ public class Product {
 
     @ElementCollection
     @Column(name = "images")
-    private Set<String> images = new HashSet<>();
+    private List<String> images = new ArrayList<>();
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "category_id")

@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -74,8 +75,18 @@ public class FileFileStorageServiceImpl implements FileStorageService {
 
     @Override
     public String getAddressByName(String name) {
-        return imageDataRepository.findByName(name)
-                                 .map(ImageData::getAddress)
-                                 .orElse(null);
+        return imageDataRepository.findAllByNameIn(List.of(name)).flatMap(imageData -> imageData.stream()
+                                                                                                .findFirst()
+                                                                                                .map(ImageData::getAddress))
+                                  .orElse(null);
+    }
+
+    @Override
+    public List<String> getAddressByNames(List<String> images) {
+        return imageDataRepository.findAllByNameIn(images)
+                                  .map(imageData -> imageData.stream()
+                                                             .map(ImageData::getAddress)
+                                                             .collect(Collectors.toList()))
+                                  .orElse(null);
     }
 }

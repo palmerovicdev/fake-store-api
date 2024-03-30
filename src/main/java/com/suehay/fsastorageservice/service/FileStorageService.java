@@ -8,8 +8,14 @@ import java.util.List;
 
 public interface FileStorageService {
     GenericResponse<String> save(UploadRequest file);
+
     GenericResponse<ImageData> findByName(String name);
+
     GenericResponse<List<ImageData>> findAllByNameIn(List<String> names);
+
     void deleteByName(String name);
+
     String getAddressByName(String name);
+
+    List<String> getAddressByNames(List<String> images);
 }
