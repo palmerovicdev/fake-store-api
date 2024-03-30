@@ -67,6 +67,8 @@ public class ProductServiceImpl implements ProductService{
         var response = new GenericResponse<Product>();
         var productData = productRepository.findById(product.getId());
         if (productData.isPresent()) {
+        var addresses = fileStorageService.getAddressByNames(product.getImages());
+            product.setImages(addresses);
             response.setData(productRepository.save(product));
             response.setMessage("Product updated with id: " + product.getId());
             response.setStatus("200");
