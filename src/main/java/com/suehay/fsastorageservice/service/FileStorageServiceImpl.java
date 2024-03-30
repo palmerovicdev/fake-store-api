@@ -16,7 +16,7 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 @Slf4j
-public class FileFileStorageServiceImpl implements FileStorageService {
+public class FileStorageServiceImpl implements FileStorageService {
     private final ImageDataRepository imageDataRepository;
     private final ImageUtils imageUtils;
     private @Value("${spring.application.address}") String appAddress;
