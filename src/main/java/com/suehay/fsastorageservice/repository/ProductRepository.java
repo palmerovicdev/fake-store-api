@@ -11,4 +11,6 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
 
     @Query("SELECT p FROM Product p WHERE p.category.name = :categoryName ORDER BY p.id ASC")
     Page<Product> findAllByCategoryNameContains(Pageable pageable, String categoryName);
+
+    boolean deleteByTitle(String name);
 }

@@ -14,5 +14,5 @@ public interface ProductService {
 
     GenericResponse<Product> updateProduct(Product product);
 
-    void deleteProductByName(String name);
+    GenericResponse<String> deleteProductByName(String title);
 }
