@@ -115,4 +115,14 @@ public class ProductServiceImpl implements ProductService {
         }
         return response;
     }
+
+    @Override
+    public GenericResponse<String> deleteProduct(String id) {
+        var response = new GenericResponse<String>();
+        productRepository.deleteById(Long.parseLong(id));
+        response.setMessage("Product deleted with id: " + id);
+        response.setData(id);
+        response.setStatus("200");
+        return response;
+    }
 }

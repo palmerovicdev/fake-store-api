@@ -47,6 +47,22 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
+    public GenericResponse<Category> getCategoryByName(String name) {
+        var response = new GenericResponse<Category>();
+        var category = categoryRepository.findByName(name);
+        if (category.isPresent()) {
+            response.setData(category.get());
+            response.setMessage("Category found with name: " + name);
+            response.setStatus("200");
+        } else {
+            response.setMessage("No category found with name: " + name);
+            response.setStatus("404");
+            response.setError("Not Found");
+        }
+        return response;
+    }
+
+    @Override
     public GenericResponse<Page<Category>> getCategories(GenericPageRequest<String> request) {
         var response = new GenericResponse<Page<Category>>();
         if (request.getFilter() != null) {
@@ -66,18 +82,37 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public GenericResponse<Category> getCategoryByName(String name) {
+    public GenericResponse<Category> deleteCategoryByName(String name) {
         var response = new GenericResponse<Category>();
-        var category = categoryRepository.findByName(name);
-        if (category.isPresent()) {
-            response.setData(category.get());
-            response.setMessage("Category found with name: " + name);
+        var repositoryResponse = categoryRepository.deleteByName(name);
+        if (repositoryResponse) {
+            response.setMessage("Category deleted with name: " + name);
             response.setStatus("200");
         } else {
-            response.setMessage("No category found with name: " + name);
+            response.setMessage("No repository response found with name: " + name);
             response.setStatus("404");
             response.setError("Not Found");
         }
+        return response;
+    }
+
+    @Override
+    public GenericResponse<Category> deleteCategory(String id) {
+        var response = new GenericResponse<Category>();
+        categoryRepository.deleteById(Long.parseLong(id));
+        response.setMessage("Category deleted with id: " + id);
+        response.setStatus("200");
+        return response;
+    }
+
+    @Override
+    public GenericResponse<Category> updateCategory(Category category) {
+        var response = new GenericResponse<Category>();
+        var addresses = fileStorageService.getAddressByNames(List.of(category.getImage()));
+        category.setImage(!addresses.isEmpty() ? addresses.get(0) : null);
+        response.setData(categoryRepository.save(category));
+        response.setMessage("Category updated with id: " + category.getId());
+        response.setStatus("200");
         return response;
     }
 }

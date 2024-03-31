@@ -19,5 +19,5 @@ public interface ProductService {
 
     GenericResponse<Product> getProductByName(String name);
 
-    GenericResponse<Product> deleteProduct(String id);
+    GenericResponse<String> deleteProduct(String id);
 }

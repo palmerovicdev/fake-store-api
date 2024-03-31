@@ -6,7 +6,9 @@ import com.suehay.fsastorageservice.model.response.GenericResponse;
 import com.suehay.fsastorageservice.service.CategoryService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
+import org.aspectj.weaver.ast.Not;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,7 +24,7 @@ public class CategoryController {
             @ApiResponse(responseCode = "500", description = "Error finding categories")
     })
     @PostMapping("/save")
-    public ResponseEntity<GenericResponse<Category>> saveCategory(@RequestBody Category category) {
+    public ResponseEntity<GenericResponse<Category>> saveCategory(@RequestBody @NotNull Category category) {
         return ResponseEntity.ok(categoryService.saveCategory(category));
     }
 
@@ -32,7 +34,7 @@ public class CategoryController {
             @ApiResponse(responseCode = "500", description = "Error finding category")
     })
     @GetMapping("/get/{id}")
-    public ResponseEntity<GenericResponse<Category>> getCategoryById(@PathVariable String id) {
+    public ResponseEntity<GenericResponse<Category>> getCategoryById(@PathVariable @NotNull String id) {
         return ResponseEntity.ok(categoryService.getCategoryById(id));
     }
 
@@ -52,7 +54,7 @@ public class CategoryController {
             @ApiResponse(responseCode = "500", description = "Error updating category")
     })
     @PutMapping("/update")
-    public ResponseEntity<GenericResponse<Category>> updateCategory(@RequestBody Category category) {
+    public ResponseEntity<GenericResponse<Category>> updateCategory(@RequestBody @NotNull Category category) {
         return ResponseEntity.ok(categoryService.updateCategory(category));
     }
 
@@ -62,7 +64,7 @@ public class CategoryController {
             @ApiResponse(responseCode = "500", description = "Error deleting category")
     })
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<GenericResponse<Category>> deleteCategory(@PathVariable String id) {
+    public ResponseEntity<GenericResponse<Category>> deleteCategory(@PathVariable @NotNull String id) {
         return ResponseEntity.ok(categoryService.deleteCategory(id));
     }
 
@@ -72,7 +74,7 @@ public class CategoryController {
             @ApiResponse(responseCode = "500", description = "Error deleting category")
     })
     @DeleteMapping("/delete/{name}")
-    public ResponseEntity<GenericResponse<Category>> deleteCategoryByName(@PathVariable String name) {
+    public ResponseEntity<GenericResponse<Category>> deleteCategoryByName(@PathVariable @NotNull String name) {
         return ResponseEntity.ok(categoryService.deleteCategoryByName(name));
     }
 
