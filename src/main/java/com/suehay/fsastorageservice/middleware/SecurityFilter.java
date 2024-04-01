@@ -1,5 +1,6 @@
 package com.suehay.fsastorageservice.middleware;
 
+import com.suehay.fsastorageservice.model.enums.Role;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -44,13 +45,15 @@ public class SecurityFilter {
                             .requestMatchers(HttpMethod.POST, "/product/save").hasAnyRole("ADMIN", "USER", "GUEST")
                             .requestMatchers(HttpMethod.GET, "/product/get/**").hasAnyRole("ADMIN", "USER", "GUEST")
                             .requestMatchers(HttpMethod.PUT, "/product/update").hasAnyRole("ADMIN", "USER", "GUEST")
-                            .requestMatchers(HttpMethod.DELETE, "/product/delete/**").hasAnyRole("ADMIN", "USER", "GUEST");
+                            .requestMatchers(HttpMethod.DELETE, "/product/delete/**").hasAnyAuthority();
                     // File routes
                     authConfig
                             .requestMatchers(HttpMethod.POST, "/file/save").hasAnyRole("ADMIN", "USER", "GUEST")
                             .requestMatchers(HttpMethod.GET, "/file/find").hasAnyRole("ADMIN", "USER", "GUEST")
                             .requestMatchers(HttpMethod.POST, "/file/findAllIn").hasAnyRole("ADMIN", "USER", "GUEST")
                             .requestMatchers(HttpMethod.DELETE, "/file/delete").hasAnyRole("ADMIN", "USER", "GUEST¡");
+
+                    authConfig.anyRequest().denyAll();
                 })
                 ;
 
