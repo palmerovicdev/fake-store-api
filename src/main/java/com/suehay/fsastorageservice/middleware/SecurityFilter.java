@@ -54,7 +54,7 @@ public class SecurityFilter {
                             .requestMatchers(HttpMethod.DELETE, "/file/delete").hasAnyAuthority("DELETE");
 
                     authConfig.anyRequest().denyAll();
-                })
+                })  //TODO 4/1/24 palmerodev : add missing config
         ;
 
         return http.build();
