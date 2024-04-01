@@ -27,31 +27,31 @@ public class SecurityFilter {
                 .authorizeHttpRequests(authConfig -> {
                     // Auth routes
                     authConfig
-                            .requestMatchers(HttpMethod.POST, "/auth/singup").permitAll()
+                            .requestMatchers(HttpMethod.POST, "/auth/signup").permitAll()
                             .requestMatchers(HttpMethod.GET, "/auth/refresh").permitAll()
                             .requestMatchers(HttpMethod.GET, "/auth/login").permitAll()
                             .requestMatchers("/error").permitAll();
 
                     // Category routes
                     authConfig
-                            .requestMatchers(HttpMethod.POST, "/category/save").hasAnyRole("ADMIN", "USER", "GUEST")
-                            .requestMatchers(HttpMethod.GET, "/category/get/**").hasAnyRole("ADMIN", "USER", "GUEST")
-                            .requestMatchers(HttpMethod.POST, "/category/findAll").hasAnyRole("ADMIN", "USER", "GUEST")
-                            .requestMatchers(HttpMethod.PUT, "/category/update").hasAnyRole("ADMIN", "USER", "GUEST")
-                            .requestMatchers(HttpMethod.DELETE, "/category/delete/**").hasAnyRole("ADMIN", "USER", "GUEST");
+                            .requestMatchers(HttpMethod.POST, "/category/save").hasAnyAuthority("WRITE")
+                            .requestMatchers(HttpMethod.GET, "/category/get/**").hasAnyAuthority("READ")
+                            .requestMatchers(HttpMethod.GET, "/category/findAll").hasAnyAuthority("READ")
+                            .requestMatchers(HttpMethod.PUT, "/category/update").hasAnyAuthority("UPDATE")
+                            .requestMatchers(HttpMethod.DELETE, "/category/delete/**").hasAnyAuthority("DELETE");
 
                     // Product routes
                     authConfig
-                            .requestMatchers(HttpMethod.POST, "/product/save").hasAnyRole("ADMIN", "USER", "GUEST")
-                            .requestMatchers(HttpMethod.GET, "/product/get/**").hasAnyRole("ADMIN", "USER", "GUEST")
-                            .requestMatchers(HttpMethod.PUT, "/product/update").hasAnyRole("ADMIN", "USER", "GUEST")
-                            .requestMatchers(HttpMethod.DELETE, "/product/delete/**").hasAnyAuthority();
+                            .requestMatchers(HttpMethod.POST, "/product/save").hasAnyAuthority("WRITE")
+                            .requestMatchers(HttpMethod.GET, "/product/get/**").hasAnyAuthority("READ")
+                            .requestMatchers(HttpMethod.PUT, "/product/update").hasAnyAuthority("UPDATE")
+                            .requestMatchers(HttpMethod.DELETE, "/product/delete/**").hasAnyAuthority("DELETE");
                     // File routes
                     authConfig
-                            .requestMatchers(HttpMethod.POST, "/file/save").hasAnyRole("ADMIN", "USER", "GUEST")
-                            .requestMatchers(HttpMethod.GET, "/file/find").hasAnyRole("ADMIN", "USER", "GUEST")
-                            .requestMatchers(HttpMethod.POST, "/file/findAllIn").hasAnyRole("ADMIN", "USER", "GUEST")
-                            .requestMatchers(HttpMethod.DELETE, "/file/delete").hasAnyRole("ADMIN", "USER", "GUEST¡");
+                            .requestMatchers(HttpMethod.POST, "/file/save").hasAnyAuthority("WRITE")
+                            .requestMatchers(HttpMethod.GET, "/file/find").hasAnyAuthority("READ")
+                            .requestMatchers(HttpMethod.GET, "/file/findAllIn").hasAnyAuthority("READ")
+                            .requestMatchers(HttpMethod.DELETE, "/file/delete").hasAnyAuthority("DELETE");
 
                     authConfig.anyRequest().denyAll();
                 })

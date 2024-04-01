@@ -20,7 +20,7 @@ public class FileStorageServiceImpl implements FileStorageService {
     private final ImageDataRepository imageDataRepository;
     private final ImageUtils imageUtils;
     private @Value("${spring.application.address}") String appAddress;
-    private @Value("${spring.feature.file-storage}") String fileStorageAddres;
+    private @Value("${spring.feature.file-storage}") String fileStorageAddress;
 
     @Override
     public GenericResponse<String> save(UploadRequest file) {
@@ -28,7 +28,7 @@ public class FileStorageServiceImpl implements FileStorageService {
                                  .name(file.name())
                                  .type(file.type())
                                  .data(imageUtils.compressImage(file.data()))
-                                 .address(appAddress + fileStorageAddres + "find?name=" + file.name())
+                                 .address(appAddress + fileStorageAddress + "find?name=" + file.name())
                                  .build();
         var data = imageDataRepository.save(imageData);
         return new GenericResponse<>("Success", "File saved successfully", "200", data.getAddress());

@@ -8,7 +8,6 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
-import org.aspectj.weaver.ast.Not;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -43,7 +42,7 @@ public class CategoryController {
             @ApiResponse(responseCode = "404", description = "No categories found"),
             @ApiResponse(responseCode = "500", description = "Error finding categories")
     })
-    @PostMapping("/findAll")
+    @GetMapping("/findAll")
     public ResponseEntity<GenericResponse<?>> getCategories(@RequestBody GenericPageRequest<String> filter) {
         return ResponseEntity.ok(categoryService.getCategories(filter));
     }

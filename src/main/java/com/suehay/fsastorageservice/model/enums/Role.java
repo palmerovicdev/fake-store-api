@@ -1,23 +1,22 @@
 package com.suehay.fsastorageservice.model.enums;
 
+import lombok.Getter;
+
 import java.util.List;
 
+@Getter
 public enum Role {
-    ADMIN(List.of(Permisions.DELETE, Permisions.DOWNLOAD, Permisions.READ, Permisions.UPLOAD, Permisions.UPDATE)),
-    USER(List.of(Permisions.DOWNLOAD, Permisions.READ, Permisions.UPLOAD, Permisions.UPDATE)),
-    GUEST(List.of(Permisions.READ));
+    ADMIN(List.of(Permissions.DELETE, Permissions.WRITE, Permissions.READ, Permissions.UPDATE)),
+    USER(List.of(Permissions.WRITE, Permissions.READ, Permissions.UPDATE)),
+    GUEST(List.of(Permissions.READ));
 
-    final List<Permisions> permissions;
+    final List<Permissions> permissions;
 
-    Role(List<Permisions> permissions) {
+    Role(List<Permissions> permissions) {
         this.permissions = permissions;
     }
 
-    public List<Permisions> getPermissions() {
-        return permissions;
-    }
-
-    public boolean hasPermission(Permisions permission) {
+    public boolean hasPermission(Permissions permission) {
         return permissions.contains(permission);
     }
 
