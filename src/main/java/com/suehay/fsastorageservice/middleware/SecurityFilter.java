@@ -1,6 +1,5 @@
 package com.suehay.fsastorageservice.middleware;
 
-import com.suehay.fsastorageservice.model.enums.Role;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -18,6 +17,7 @@ import org.springframework.security.web.SecurityFilterChain;
 public class SecurityFilter {
 
     private final AuthenticationProvider authenticationProvider;
+
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
@@ -55,7 +55,7 @@ public class SecurityFilter {
 
                     authConfig.anyRequest().denyAll();
                 })
-                ;
+        ;
 
         return http.build();
     }
