@@ -23,7 +23,7 @@ public class FileStorageController {
             @ApiResponse(responseCode = "200", description = "File saved successfully"),
             @ApiResponse(responseCode = "400", description = "Error saving file"),
             @ApiResponse(responseCode = "500", description = "Error saving file")
-    })
+    }, method = "POST")
     @PostMapping("/save")
     public ResponseEntity<GenericResponse<String>> save(@RequestParam("file") UploadRequest file) {
         var response = fileStorageService.save(file);
@@ -38,8 +38,7 @@ public class FileStorageController {
             @ApiResponse(responseCode = "200", description = "Image found"),
             @ApiResponse(responseCode = "400", description = "Error finding image"),
             @ApiResponse(responseCode = "500", description = "Error finding image")
-    })
-
+    }, method = "GET")
     @GetMapping("/find")
     public ResponseEntity<GenericResponse<ImageData>> find(@RequestParam("name") String name) {
         var response = fileStorageService.findByName(name);
@@ -54,7 +53,7 @@ public class FileStorageController {
             @ApiResponse(responseCode = "200", description = "Images found"),
             @ApiResponse(responseCode = "400", description = "Error finding images"),
             @ApiResponse(responseCode = "500", description = "Error finding images")
-    })
+    }, method = "GET")
     @GetMapping("/findAllIn")
     public ResponseEntity<GenericResponse<?>> findAll(@RequestParam("names") List<String> names) {
         var response = fileStorageService.findAllByNameIn(names);
@@ -69,7 +68,7 @@ public class FileStorageController {
             @ApiResponse(responseCode = "200", description = "File deleted successfully"),
             @ApiResponse(responseCode = "400", description = "Error deleting file"),
             @ApiResponse(responseCode = "500", description = "Error deleting file")
-    })
+    }, method = "DELETE")
     @DeleteMapping("/delete")
     public ResponseEntity<GenericResponse<?>> delete(@RequestParam("name") String name) {
         fileStorageService.deleteByName(name);
