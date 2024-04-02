@@ -8,7 +8,10 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
@@ -19,7 +22,7 @@ public class AuthenticationController {
     @Operation(summary = "Register a user by username and password", description = "Register a user", responses = {
             @ApiResponse(responseCode = "200", description = "User registered successfully"),
             @ApiResponse(responseCode = "500", description = "Error registering user")
-    })
+    }, method = "POST")
     @PostMapping("/register")
     public ResponseEntity<GenericResponse<AuthenticationResponse>> register(@RequestBody AuthenticationRequest authenticationRequest) {
         return ResponseEntity.ok(authService.register(authenticationRequest));
@@ -29,8 +32,8 @@ public class AuthenticationController {
             @ApiResponse(responseCode = "200", description = "Login successful"),
             @ApiResponse(responseCode = "404", description = "User not found"),
             @ApiResponse(responseCode = "500", description = "Error logging in user")
-    })
-    @GetMapping("/login")
+    }, method = "POST")
+    @PostMapping("/login")
     public ResponseEntity<GenericResponse<AuthenticationResponse>> login(@RequestBody AuthenticationRequest authenticationRequest) {
         return ResponseEntity.ok(authService.login(authenticationRequest));
     }
