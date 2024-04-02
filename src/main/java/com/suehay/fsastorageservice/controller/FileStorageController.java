@@ -7,6 +7,7 @@ import com.suehay.fsastorageservice.service.FileStorageService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -31,7 +32,7 @@ public class FileStorageController {
             var status = response.getStatus().equals("500") ? 500 : 400;
             return ResponseEntity.status(status).body(response);
         }
-        return ResponseEntity.ok(response);
+        return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
     @Operation(summary = "Find file", description = "Find file by name", responses = {

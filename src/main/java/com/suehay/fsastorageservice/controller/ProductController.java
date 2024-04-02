@@ -8,6 +8,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -55,7 +56,7 @@ public class ProductController {
     }, method = "POST")
     @PostMapping("/save")
     public ResponseEntity<GenericResponse<Product>> saveProduct(@RequestBody @NotNull Product product) {
-        return ResponseEntity.ok(productService.saveProduct(product));
+        return ResponseEntity.status(HttpStatus.CREATED).body(productService.saveProduct(product));
     }
 
     @Operation(summary = "Update product", description = "Update product", responses = {

@@ -7,6 +7,7 @@ import com.suehay.fsastorageservice.service.AuthService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -25,7 +26,7 @@ public class AuthenticationController {
     }, method = "POST")
     @PostMapping("/register")
     public ResponseEntity<GenericResponse<AuthenticationResponse>> register(@RequestBody AuthenticationRequest authenticationRequest) {
-        return ResponseEntity.ok(authService.register(authenticationRequest));
+        return ResponseEntity.status(HttpStatus.CREATED).body(authService.register(authenticationRequest));
     }
 
     @Operation(summary = "Login a user by username and password", description = "Login a user", responses = {

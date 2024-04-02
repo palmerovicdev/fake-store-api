@@ -8,6 +8,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,7 +25,7 @@ public class CategoryController {
     }, method = "POST")
     @PostMapping("/save")
     public ResponseEntity<GenericResponse<Category>> saveCategory(@RequestBody @NotNull Category category) {
-        return ResponseEntity.ok(categoryService.saveCategory(category));
+        return ResponseEntity.status(HttpStatus.CREATED).body(categoryService.saveCategory(category));
     }
 
     @Operation(summary = "Get category by id", description = "Get category by id", responses = {
