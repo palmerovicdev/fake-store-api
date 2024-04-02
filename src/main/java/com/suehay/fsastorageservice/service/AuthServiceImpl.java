@@ -63,14 +63,4 @@ public class AuthServiceImpl implements AuthService {
                                                                                                             .role(user.getRole().name())
                                                                                                             .build());
     }
-
-    @Override
-    public String logout(String token) {
-        return null;
-    }
-
-    @Override
-    public String refreshToken(String token) {
-        return null;
-    }
 }

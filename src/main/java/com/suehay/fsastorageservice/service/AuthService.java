@@ -9,7 +9,4 @@ public interface AuthService {
 
     GenericResponse<AuthenticationResponse> register(AuthenticationRequest authenticationRequest);
 
-    String logout(String token);
-
-    String refreshToken(String token);
 }
