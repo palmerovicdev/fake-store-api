@@ -1,9 +1,13 @@
 package com.suehay.fsastorageservice.service;
 
-public interface AuthService {
-    String login(String username, String password);
+import com.suehay.fsastorageservice.model.request.AuthenticationRequest;
+import com.suehay.fsastorageservice.model.response.AuthenticationResponse;
+import com.suehay.fsastorageservice.model.response.GenericResponse;
 
-    String register(String username, String password);
+public interface AuthService {
+    GenericResponse<AuthenticationResponse> login(AuthenticationRequest authenticationRequest);
+
+    GenericResponse<AuthenticationResponse> register(AuthenticationRequest authenticationRequest);
 
     String logout(String token);
 
