@@ -33,7 +33,6 @@ public class AuthServiceImpl implements AuthService {
         authenticationManager.authenticate(passwordAuthenticationToken);
 
         var user = userRepository.findByUsername(authenticationRequest.uasername());
-
         log.info("Finishing...");
         return user.map(value -> new GenericResponse<>(null, "Login successful", "200", AuthenticationResponse.builder()
                                                                                                               .token(jwtService.generateToken(value, generateExtraClaims(value)))
