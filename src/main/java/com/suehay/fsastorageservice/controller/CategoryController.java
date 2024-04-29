@@ -18,9 +18,8 @@ import org.springframework.web.bind.annotation.*;
 public class CategoryController {
     private final CategoryService categoryService;
 
-    @Operation(summary = "Get all categories", description = "Get all categories", responses = {
-            @ApiResponse(responseCode = "200", description = "Categories found"),
-            @ApiResponse(responseCode = "404", description = "No categories found"),
+    @Operation(summary = "Save a category", description = "Save a category", responses = {
+            @ApiResponse(responseCode = "201", description = "Category saved"),
             @ApiResponse(responseCode = "500", description = "Error finding categories")
     }, method = "POST")
     @PostMapping("/save")
