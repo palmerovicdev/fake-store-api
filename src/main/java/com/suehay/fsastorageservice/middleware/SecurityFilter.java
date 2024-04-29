@@ -32,6 +32,7 @@ public class SecurityFilter {
                     // Auth routes
                     authConfig
                             .requestMatchers(HttpMethod.POST, "/auth/register").permitAll()
+                            .requestMatchers(HttpMethod.POST, "/auth/register/admin").permitAll()
                             .requestMatchers(HttpMethod.POST, "/auth/login").permitAll()
                             .requestMatchers("/error").permitAll();
 
