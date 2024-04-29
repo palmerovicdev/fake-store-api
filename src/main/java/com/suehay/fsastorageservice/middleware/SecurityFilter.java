@@ -56,7 +56,11 @@ public class SecurityFilter {
                             .requestMatchers(HttpMethod.GET, "/file/find").hasAnyAuthority("READ")
                             .requestMatchers(HttpMethod.GET, "/file/findAllIn").hasAnyAuthority("READ")
                             .requestMatchers(HttpMethod.DELETE, "/file/delete").hasAnyAuthority("DELETE");
-
+                    // Swagger routes
+                    authConfig
+                            .requestMatchers("/swagger-ui/**").permitAll()
+                            .requestMatchers("/v3/api-docs/**").permitAll()
+                            .requestMatchers("/swagger-ui.html").permitAll();
                     authConfig.anyRequest().denyAll();
                 })  //TODO 4/1/24 palmerodev : add missing config
         ;
