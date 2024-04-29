@@ -38,4 +38,6 @@ jobs:
       run: docker push palmerovicdev/fsa-storage-service
 
     - name: Run Deployment Trigger
-      run: | curl -X GET http://217.15.171.136:3000/api/deploy/d6ba72fdbbd7fb9ef5a2a7002f3081d33c8aeb46d6ca7305
+      run: |
+        curl -X GET http://217.15.171.136:3000/api/deploy/d6ba72fdbbd7fb9ef5a2a7002f3081d33c8aeb46d6ca7305
+
