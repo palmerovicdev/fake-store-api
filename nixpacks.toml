@@ -1,0 +1,46 @@
+[environment]
+name = "spring-boot-app"
+description = "A Spring Boot application running on Java 17"
+
+[environment.runtime]
+image = "openjdk:17-jdk-alpine"
+
+[environment.ports]
+http = 8080
+
+[environment.volumes]
+app = "/app"
+
+[environment.environment]
+JAVA_OPTS = "-Xmx512m -Xms256m"
+
+[environment.build]
+command = "mvn clean package"
+
+[environment.deploy]
+command = "java -jar target/fsa-storage-service-0.0.1-SNAPSHOT.jar"
+
+[environment.expose]
+port = 8080
+
+[environment.services]
+name = "spring-boot-service"
+type = "http"
+
+[environment.services.ports]
+http = 8080
+
+[environment.services.environment]
+JAVA_OPTS = "-Xmx512m -Xms256m"
+
+[environment.services.volumes]
+app = "/app"
+
+[environment.services.build]
+command = "mvn clean package"
+
+[environment.services.deploy]
+command = "java -jar target/my-spring-boot-app-0.0.1-SNAPSHOT.jar"
+
+[environment.services.expose]
+port = 8080
