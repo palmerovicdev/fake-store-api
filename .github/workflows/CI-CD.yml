@@ -22,21 +22,6 @@ jobs:
     - name: Build with Maven
       run: mvn clean install
 
-    - name: Copy JAR file
-      run: cp target/*.jar .
-
-    - name: Build Docker image
-      run: docker build -t palmerovicdev/fsa-storage-service .
-
-    - name: Login to DockerHub
-      uses: docker/login-action@v1 
-      with:
-        username: ${{ secrets.DOCKERHUB_USERNAME }}
-        password: ${{ secrets.DOCKERHUB_PASSWORD }}
-
-    - name: Push Docker image to DockerHub
-      run: docker push palmerovicdev/fsa-storage-service
-
     - name: Run Deployment Trigger
       run: |
        curl -X GET http://217.15.171.136:3000/api/deploy/847c29144f736e015125fab74cc534553d46d5a7dd89ea52
