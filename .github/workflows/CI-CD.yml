@@ -37,14 +37,6 @@ jobs:
     - name: Push Docker image to DockerHub
       run: docker push palmerovicdev/fsa-storage-service
 
-    - name: Deploy to VPS
-      uses: appleboy/ssh-action@master
-      with:
-        host: ${{ secrets.SERVER_HOST }}
-        username: ${{ secrets.SERVER_USERNAME }}
-        key: ${{ secrets.SERVER_SSH_KEY }}
-        script: |
-          docker pull palmerovicdev/fsa-storage-service
-          docker stop fsa-storage-service || true
-          docker rm fsa-storage-service || true
-          docker run -d -p 8080:8080 --name fsa-storage-service palmerovicdev/fsa-storage-service
+    - name: Run Deployment Trigger
+      run: |
+       curl -X GET http://217.15.171.136:3000/api/deploy/d6ba72fdbbd7fb9ef5a2a7002f3081d33c8aeb46d6ca7305
