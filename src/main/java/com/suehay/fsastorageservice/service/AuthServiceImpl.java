@@ -28,11 +28,13 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public GenericResponse<AuthenticationResponse> login(AuthenticationRequest authenticationRequest) {
+        log.info("Initializing login method...");
         var passwordAuthenticationToken = new UsernamePasswordAuthenticationToken(authenticationRequest.uasername(), authenticationRequest.password());
         authenticationManager.authenticate(passwordAuthenticationToken);
 
         var user = userRepository.findByUsername(authenticationRequest.uasername());
 
+        log.info("Finishing...");
         return user.map(value -> new GenericResponse<>(null, "Login successful", "200", AuthenticationResponse.builder()
                                                                                                               .token(jwtService.generateToken(value, generateExtraClaims(value)))
                                                                                                               .username(value.getUsername())
