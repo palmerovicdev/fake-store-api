@@ -31,9 +31,9 @@ public class SecurityFilter {
                 .authorizeHttpRequests(authConfig -> {
                     // Auth routes
                     authConfig
-                            .requestMatchers(HttpMethod.POST, "/auth/signup").permitAll()
-                            .requestMatchers(HttpMethod.GET, "/auth/refresh").permitAll()
-                            .requestMatchers(HttpMethod.GET, "/auth/login").permitAll()
+                            .requestMatchers(HttpMethod.POST, "/auth/register").permitAll()
+                            .requestMatchers(HttpMethod.POST, "/auth/register/admin").hasAnyAuthority("CREATE_ADMIN")
+                            .requestMatchers(HttpMethod.POST, "/auth/login").permitAll()
                             .requestMatchers("/error").permitAll();
 
                     // Category routes

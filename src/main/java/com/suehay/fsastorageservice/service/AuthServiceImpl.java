@@ -63,4 +63,20 @@ public class AuthServiceImpl implements AuthService {
                                                                                                             .role(user.getRole().name())
                                                                                                             .build());
     }
+
+    @Override
+    public GenericResponse<AuthenticationResponse> registerAdmin(AuthenticationRequest authenticationRequest) {
+        var user = new User();
+        user.setUsername(authenticationRequest.uasername());
+        user.setPassword(passwordEncoder.encode(authenticationRequest.password()));
+        user.setRole(Role.ADMIN);
+
+        userRepository.save(user);
+
+        return new GenericResponse<>(null, "Register successful", "201", AuthenticationResponse.builder()
+                                                                                                            .token(jwtService.generateToken(user, generateExtraClaims(user)))
+                                                                                                            .username(user.getUsername())
+                                                                                                            .role(user.getRole().name())
+                                                                                                            .build());
+    }
 }

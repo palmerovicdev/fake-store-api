@@ -29,6 +29,16 @@ public class AuthenticationController {
         return ResponseEntity.status(HttpStatus.CREATED).body(authService.register(authenticationRequest));
     }
 
+    @Operation(summary = "Register an admin by username and password", description = "Register an admin", responses = {
+            @ApiResponse(responseCode = "200", description = "Register successful"),
+            @ApiResponse(responseCode = "404", description = "User not found"),
+            @ApiResponse(responseCode = "500", description = "Error logging in user")
+    }, method = "POST")
+    @PostMapping("/register/admin")
+    public ResponseEntity<GenericResponse<AuthenticationResponse>> registerAdmin(@RequestBody AuthenticationRequest authenticationRequest) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(authService.registerAdmin(authenticationRequest));
+    }
+
     @Operation(summary = "Login a user by username and password", description = "Login a user", responses = {
             @ApiResponse(responseCode = "200", description = "Login successful"),
             @ApiResponse(responseCode = "404", description = "User not found"),
