@@ -39,4 +39,4 @@ jobs:
 
     - name: Run Deployment Trigger
       run: |
-       curl -X GET http://217.15.171.136:3000/api/deploy/51dd2a4db3ddb22c4736533a8bb4bfd3ffbc62bb266f8882
+       curl -X GET http://217.15.171.136:3000/api/deploy/847c29144f736e015125fab74cc534553d46d5a7dd89ea52
