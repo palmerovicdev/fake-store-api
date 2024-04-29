@@ -22,6 +22,9 @@ jobs:
     - name: Build with Maven
       run: mvn clean install
 
+    - name: Copy JAR file
+      run: cp target/*.jar
+
     - name: Build Docker image
       run: docker build -t palmerovicdev/fsa-storage-service .
 
