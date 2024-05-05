@@ -45,6 +45,10 @@ jobs:
         context: .
         push: true
         tags: palmerovicdev/fsa-storage-service:latest
+        build-args: |
+          DATABASE_URL=${{ secrets.DATABASE_URL }}
+          DATABASE_USER=${{ secrets.DATABASE_USER }}
+          DATABASE_PASS=${{ secrets.DATABASE_PASS }}
 
     - name: Run Deployment Trigger
       run: |
