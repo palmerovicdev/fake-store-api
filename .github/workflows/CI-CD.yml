@@ -26,6 +26,7 @@ jobs:
         DATABASE_URL: ${{vars.DATABASE_URL}}
         DATABASE_USER: ${{vars.DATABASE_USER}}
         DATABASE_PASS: ${{vars.DATABASE_PASS}}
+        SERVER_URL: ${{secrets.SERVER_URL}}
 
     - name: Copy artifact to root
       run: cp target/fsa-storage-service-1.0.0.jar .
