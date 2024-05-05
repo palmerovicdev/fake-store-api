@@ -5,13 +5,16 @@ import com.suehay.fsastorageservice.model.request.GenericPageRequest;
 import com.suehay.fsastorageservice.model.response.GenericResponse;
 import com.suehay.fsastorageservice.service.CategoryService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+@Tag(name = "Category", description = "Category controller")
 @RestController
 @RequestMapping("/category")
 @RequiredArgsConstructor
@@ -33,7 +36,9 @@ public class CategoryController {
             @ApiResponse(responseCode = "500", description = "Error finding category")
     }, method = "GET")
     @GetMapping("/get/{id}")
-    public ResponseEntity<GenericResponse<Category>> getCategoryById(@PathVariable @NotNull String id) {
+    public ResponseEntity<GenericResponse<Category>> getCategoryById(
+            @Parameter(description = "Category id")
+            @PathVariable @NotNull String id) {
         return ResponseEntity.ok(categoryService.getCategoryById(id));
     }
 
@@ -63,7 +68,9 @@ public class CategoryController {
             @ApiResponse(responseCode = "500", description = "Error deleting category")
     }, method = "DELETE")
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<GenericResponse<Category>> deleteCategory(@PathVariable @NotNull String id) {
+    public ResponseEntity<GenericResponse<Category>> deleteCategory(
+            @Parameter(description = "Category id")
+            @PathVariable @NotNull String id) {
         return ResponseEntity.ok(categoryService.deleteCategory(id));
     }
 
@@ -73,7 +80,9 @@ public class CategoryController {
             @ApiResponse(responseCode = "500", description = "Error deleting category")
     }, method = "DELETE")
     @DeleteMapping("/delete/{name}")
-    public ResponseEntity<GenericResponse<Category>> deleteCategoryByName(@PathVariable @NotNull String name) {
+    public ResponseEntity<GenericResponse<Category>> deleteCategoryByName(
+            @Parameter(description = "Category name")
+            @PathVariable @NotNull String name) {
         return ResponseEntity.ok(categoryService.deleteCategoryByName(name));
     }
 

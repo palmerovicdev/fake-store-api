@@ -5,7 +5,9 @@ import com.suehay.fsastorageservice.model.request.GenericPageRequest;
 import com.suehay.fsastorageservice.model.response.GenericResponse;
 import com.suehay.fsastorageservice.service.ProductService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -14,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@Tag(name = "Product", description = "Product controller")
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/product")
@@ -36,7 +39,9 @@ public class ProductController {
             @ApiResponse(responseCode = "500", description = "Error finding product")
     }, method = "GET")
     @GetMapping("/get/{id}")
-    public ResponseEntity<GenericResponse<Product>> getProductById(@PathVariable @NotNull String id) {
+    public ResponseEntity<GenericResponse<Product>> getProductById(
+            @Parameter(description = "Product id")
+            @PathVariable @NotNull String id) {
         return ResponseEntity.ok(productService.getProductById(id));
     }
 
@@ -46,7 +51,9 @@ public class ProductController {
             @ApiResponse(responseCode = "500", description = "Error finding product")
     }, method = "GET")
     @GetMapping("/get/{name}")
-    public ResponseEntity<GenericResponse<Product>> getProductByName(@PathVariable @NotNull String name) {
+    public ResponseEntity<GenericResponse<Product>> getProductByName(
+            @Parameter(description = "Product name")
+            @PathVariable @NotNull String name) {
         return ResponseEntity.ok(productService.getProductByName(name));
     }
 
@@ -73,7 +80,9 @@ public class ProductController {
             @ApiResponse(responseCode = "500", description = "Error deleting product")
     }, method = "DELETE")
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<GenericResponse<String>> deleteProduct(@PathVariable @NotNull String id) {
+    public ResponseEntity<GenericResponse<String>> deleteProduct(
+            @Parameter(description = "Product id")
+            @PathVariable @NotNull String id) {
         return ResponseEntity.ok(productService.deleteProduct(id));
     }
 
@@ -82,7 +91,9 @@ public class ProductController {
             @ApiResponse(responseCode = "500", description = "Error deleting product")
     }, method = "DELETE")
     @DeleteMapping("/delete/{name}")
-    public ResponseEntity<GenericResponse<String>> deleteProductByName(@PathVariable @NotNull String name) {
+    public ResponseEntity<GenericResponse<String>> deleteProductByName(
+            @Parameter(description = "Product name")
+            @PathVariable @NotNull String name) {
         return ResponseEntity.ok(productService.deleteProductByName(name));
     }
 }

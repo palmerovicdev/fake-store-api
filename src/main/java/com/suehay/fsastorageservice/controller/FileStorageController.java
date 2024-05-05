@@ -5,7 +5,9 @@ import com.suehay.fsastorageservice.model.request.UploadRequest;
 import com.suehay.fsastorageservice.model.response.GenericResponse;
 import com.suehay.fsastorageservice.service.FileStorageService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@Tag(name = "File Storage", description = "File storage controller")
 @RestController
 @RequestMapping("/storage")
 @RequiredArgsConstructor
@@ -26,7 +29,9 @@ public class FileStorageController {
             @ApiResponse(responseCode = "500", description = "Error saving file")
     }, method = "POST")
     @PostMapping("/save")
-    public ResponseEntity<GenericResponse<String>> save(@RequestParam("file") UploadRequest file) {
+    public ResponseEntity<GenericResponse<String>> save(
+            @Parameter(description = "File to save")
+            @RequestParam("file") UploadRequest file) {
         var response = fileStorageService.save(file);
         if (response.getError() != null) {
             var status = response.getStatus().equals("500") ? 500 : 400;
@@ -41,7 +46,9 @@ public class FileStorageController {
             @ApiResponse(responseCode = "500", description = "Error finding image")
     }, method = "GET")
     @GetMapping("/find")
-    public ResponseEntity<GenericResponse<ImageData>> find(@RequestParam("name") String name) {
+    public ResponseEntity<GenericResponse<ImageData>> find(
+            @Parameter(description = "File name")
+            @RequestParam("name") String name) {
         var response = fileStorageService.findByName(name);
         if (response.getError() != null) {
             var status = response.getStatus().equals("500") ? 500 : 400;
@@ -56,7 +63,9 @@ public class FileStorageController {
             @ApiResponse(responseCode = "500", description = "Error finding images")
     }, method = "GET")
     @GetMapping("/findAllIn")
-    public ResponseEntity<GenericResponse<?>> findAll(@RequestParam("names") List<String> names) {
+    public ResponseEntity<GenericResponse<?>> findAll(
+            @Parameter(description = "File names")
+            @RequestParam("names") List<String> names) {
         var response = fileStorageService.findAllByNameIn(names);
         if (response.getError() != null) {
             var status = response.getStatus().equals("500") ? 500 : 400;
@@ -71,7 +80,9 @@ public class FileStorageController {
             @ApiResponse(responseCode = "500", description = "Error deleting file")
     }, method = "DELETE")
     @DeleteMapping("/delete")
-    public ResponseEntity<GenericResponse<?>> delete(@RequestParam("name") String name) {
+    public ResponseEntity<GenericResponse<?>> delete(
+            @Parameter(description = "File name")
+            @RequestParam("name") String name) {
         fileStorageService.deleteByName(name);
         return ResponseEntity.ok(new GenericResponse<>("Success", "File deleted successfully", "200", null));
     }
