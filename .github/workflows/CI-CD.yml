@@ -44,7 +44,7 @@ jobs:
       with:
         context: .
         push: true
-        tags: palmerodev/fake-store-api:latest
+        tags: palmerodev/fsa-storage-service:latest
 
     - name: Run Deployment Trigger
       run: |
