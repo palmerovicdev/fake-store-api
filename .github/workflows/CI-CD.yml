@@ -23,9 +23,9 @@ jobs:
     - name: Build with Maven
       run: mvn clean install
       env:
-        DATABASE_URL: ${{vars.env.DATABASE_URL}}
-        DATABASE_USER: ${{vars.env.DATABASE_USER}}
-        DATABASE_PASS: ${{vars.env.DATABASE_PASS}}
+        DATABASE_URL: ${{vars.DATABASE_URL}}
+        DATABASE_USER: ${{vars.DATABASE_USER}}
+        DATABASE_PASS: ${{vars.DATABASE_PASS}}
 
 
     - name: Run Deployment Trigger
