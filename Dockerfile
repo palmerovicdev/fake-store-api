@@ -10,9 +10,6 @@ VOLUME /tmp
 # Make port 8080 available to the world outside this container
 EXPOSE 8080
 
-# Copy the jar file to the root directory
-COPY target/fsa-storage-service-0.0.1-SNAPSHOT.jar fsa-storage-service-0.0.1-SNAPSHOT.jar
-
 # The application's jar file
 ARG JAR_FILE=fsa-storage-service-0.0.1-SNAPSHOT.jar
 
