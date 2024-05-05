@@ -29,7 +29,7 @@ jobs:
         SERVER_URL: ${{secrets.SERVER_URL}}
 
     - name: Copy artifact to root
-      run: cp target/fsa-storage-service-1.0.1.jar .
+      run: cp target/${{ vars.JAR_FILE}}.jar .
   
     - name: Set up Docker Buildx
       uses: docker/setup-buildx-action@v3.3.0
@@ -51,6 +51,7 @@ jobs:
           DATABASE_USER=${{ secrets.DATABASE_USER }}
           DATABASE_PASS=${{ secrets.DATABASE_PASS }}
           SERVER_BASE_URL=${{ secrets.SERVER_BASE_URL }}
+          JAR_FILE={{ secrets.JAR_FILE}}
 
     - name: Run Deployment Trigger
       run: |

@@ -11,7 +11,7 @@ VOLUME /tmp
 EXPOSE 8080
 
 # The application's jar file
-ARG JAR_FILE=fsa-storage-service-1.0.0.jar
+ARG JAR_FILE
 
 # Environment Variables ARGS
 ARG DATABASE_URL
