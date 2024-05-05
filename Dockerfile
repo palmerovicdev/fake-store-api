@@ -13,11 +13,15 @@ EXPOSE 8080
 # The application's jar file
 ARG JAR_FILE=fsa-storage-service-0.0.1-SNAPSHOT.jar
 
-
-# Environment Variables
+# Environment Variables ARGS
 ARG DATABASE_URL
 ARG DATABASE_USER
 ARG DATABASE_PASS
+
+# Environment Variables
+ENV DATABASE_URL=$DATABASE_URL
+ENV DATABASE_USER=$DATABASE_USER
+ENV DATABASE_PASS=$DATABASE_PASS
 
 # Add the application's jar to the container
 ADD ${JAR_FILE} app.jar
