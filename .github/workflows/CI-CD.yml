@@ -44,7 +44,7 @@ jobs:
       with:
         context: .
         push: true
-        tags: palmerodev/fsa-storage-service:latest
+        tags: palmerovicdev/fsa-storage-service:latest
 
     - name: Run Deployment Trigger
       run: |
