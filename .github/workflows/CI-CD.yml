@@ -29,7 +29,7 @@ jobs:
         SERVER_URL: ${{secrets.SERVER_URL}}
 
     - name: Copy artifact to root
-      run: cp target/${{ vars.JAR_FILE}}.jar .
+      run: cp target/${{ vars.JAR_FILE}} .
   
     - name: Set up Docker Buildx
       uses: docker/setup-buildx-action@v3.3.0
