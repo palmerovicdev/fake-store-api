@@ -9,6 +9,7 @@ jobs:
  build:
     runs-on: ubuntu-latest
 
+    
     steps:
     - name: Checkout code
       uses: actions/checkout@v2
@@ -21,6 +22,11 @@ jobs:
 
     - name: Build with Maven
       run: mvn clean install
+      env:
+        DATABASE_URL: ${{vars.env.DATABASE_URL}}
+        DATABASE_USER: ${{vars.env.DATABASE_USER}}
+        DATABASE_PASS: ${{vars.env.DATABASE_PASS}}
+
 
     - name: Run Deployment Trigger
       run: |
