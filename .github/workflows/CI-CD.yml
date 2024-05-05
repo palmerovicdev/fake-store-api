@@ -28,7 +28,7 @@ jobs:
         DATABASE_PASS: ${{vars.DATABASE_PASS}}
 
     - name: Copy artifact to root
-      run: cp target/fsa-storage-service-0.0.1-SNAPSHOT.jar . 
+      run: cp target/fsa-storage-service-1.0.0.jar .
   
     - name: Set up Docker Buildx
       uses: docker/setup-buildx-action@v3.3.0

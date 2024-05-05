@@ -10,7 +10,7 @@
     </parent>
     <groupId>com.suehay</groupId>
     <artifactId>fsa-storage-service</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>1.0.1</version>
     <name>fsa-storage-service</name>
     <description>fsa-storage-service</description>
     <properties>

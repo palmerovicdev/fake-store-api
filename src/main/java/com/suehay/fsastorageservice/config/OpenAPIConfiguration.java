@@ -23,8 +23,9 @@ public class OpenAPIConfiguration {
        myContact.setEmail("palmerodev@gmail.com");
 
        var information = new Info()
-               .title("Employee Management System API")
+               .title("Fake Storage API")
                .version("1.0")
+               .license(new io.swagger.v3.oas.models.info.License().name("MIT").url("https://opensource.org/licenses/MIT"))
                .description("This API exposes endpoints to manage employees.")
                .contact(myContact);
        return new OpenAPI().info(information).servers(List.of(server));
