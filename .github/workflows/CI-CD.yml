@@ -51,7 +51,7 @@ jobs:
           DATABASE_USER=${{ secrets.DATABASE_USER }}
           DATABASE_PASS=${{ secrets.DATABASE_PASS }}
           SERVER_BASE_URL=${{ secrets.SERVER_BASE_URL }}
-          JAR_FILE={{ vars.JAR_FILE}}
+          JAR_FILE=${{ vars.JAR_FILE}}
 
     - name: Run Deployment Trigger
       run: |
