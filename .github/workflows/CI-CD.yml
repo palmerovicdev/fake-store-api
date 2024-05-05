@@ -49,6 +49,7 @@ jobs:
           DATABASE_URL=${{ secrets.DATABASE_URL }}
           DATABASE_USER=${{ secrets.DATABASE_USER }}
           DATABASE_PASS=${{ secrets.DATABASE_PASS }}
+          SERVER_BASE_URL=${{ secrets.SERVER_BASE_URL }}
 
     - name: Run Deployment Trigger
       run: |
