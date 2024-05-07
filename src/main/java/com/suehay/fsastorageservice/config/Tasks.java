@@ -20,18 +20,11 @@ public class Tasks {
     @EventListener(ApplicationReadyEvent.class)
     public void init() {
         // run some command in zsh
-        for (int i = 0; i < 100; i++) {
+        for (int i = 0; i < 20; i++) {
             // generate random numbers between 1 and 30
             int randomDay = new Random().nextInt(15) + 15;
             try {
-                var year = 23;
-                var month = Month.NOVEMBER.getValue();
-                var date = month + "/" + randomDay + "/" + year;
-                var command =
-                        "cd \"/Volumes/TuMaletin/Victor/Personal/fsa-storage-service/\" && echo \"a\" >> " +
-                                "\"/Volumes/TuMaletin/Victor/Personal/fsa-storage-service/src/main/resources/contributions-file.txt\" &&" +
-                                " git add --all && " +
-                                "git commit -m \"feat: add new change\" --date " + date;
+                var command = getCommand(randomDay);
                 log.info("Command: {}", command);
                 Runtime.getRuntime().exec(new String[]{"zsh", "-c", command});
             } catch (IOException e) {
@@ -39,5 +32,15 @@ public class Tasks {
             }
         }
         log.info("Swagger URL: {}swagger-ui/swagger-ui.html", SERVER_URL);
+    }
+
+    private static String getCommand(int randomDay) {
+        var year = 23;
+        var month = Month.NOVEMBER.getValue();
+        var date = month + "/" + randomDay + "/" + year;
+        return "cd \"/Volumes/TuMaletin/Victor/Personal/fsa-storage-service/\" && echo \"a\" >> " +
+                "\"/Volumes/TuMaletin/Victor/Personal/fsa-storage-service/src/main/resources/contributions-file.txt\" &&" +
+                " git add --all && " +
+                "git commit -m \"feat: add new change\" --date " + date;
     }
 }
