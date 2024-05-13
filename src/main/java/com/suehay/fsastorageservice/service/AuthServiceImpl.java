@@ -7,6 +7,7 @@ import com.suehay.fsastorageservice.model.request.AuthenticationRequest;
 import com.suehay.fsastorageservice.model.response.AuthenticationResponse;
 import com.suehay.fsastorageservice.model.response.GenericResponse;
 import com.suehay.fsastorageservice.repository.UserRepository;
+import com.suehay.fsastorageservice.util.Logger;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -25,15 +26,19 @@ public class AuthServiceImpl implements AuthService {
     private final AuthenticationManager authenticationManager;
     private final JwtService jwtService;
     private final PasswordEncoder passwordEncoder;
+    private final Logger logger;
+    private final String CONTEXT = "AuthService";
 
     @Override
     public GenericResponse<AuthenticationResponse> login(AuthenticationRequest authenticationRequest) {
-        log.info("Initializing login method...");
+        var FUNCTION_CONTEXT = "login";
+
+        logger.info(FUNCTION_CONTEXT, "Starting...");
         var passwordAuthenticationToken = new UsernamePasswordAuthenticationToken(authenticationRequest.uasername(), authenticationRequest.password());
         authenticationManager.authenticate(passwordAuthenticationToken);
 
         var user = userRepository.findByUsername(authenticationRequest.uasername());
-        log.info("Finishing...");
+        logger.info(FUNCTION_CONTEXT, "User found: " + user);
         return user.map(value -> new GenericResponse<>(null, "Login successful", "200", AuthenticationResponse.builder()
                                                                                                               .token(jwtService.generateToken(value, generateExtraClaims(value)))
                                                                                                               .username(value.getUsername())
@@ -51,12 +56,15 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public GenericResponse<AuthenticationResponse> register(AuthenticationRequest authenticationRequest) {
+        var FUNCTION_CONTEXT = "register";
         var user = new User();
         user.setUsername(authenticationRequest.uasername());
         user.setPassword(passwordEncoder.encode(authenticationRequest.password()));
         user.setRole(Role.USER);
 
+        logger.info(FUNCTION_CONTEXT, "Saving user...");
         userRepository.save(user);
+        logger.info(FUNCTION_CONTEXT, "User saved: " + user);
 
         return new GenericResponse<>(null, "User registered successfully", "201", AuthenticationResponse.builder()
                                                                                                             .token(jwtService.generateToken(user, generateExtraClaims(user)))
@@ -67,12 +75,15 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public GenericResponse<AuthenticationResponse> registerAdmin(AuthenticationRequest authenticationRequest) {
+        var FUNCTION_CONTEXT = "registerAdmin";
         var user = new User();
         user.setUsername(authenticationRequest.uasername());
         user.setPassword(passwordEncoder.encode(authenticationRequest.password()));
         user.setRole(Role.ADMIN);
 
+        logger.info(FUNCTION_CONTEXT, "Saving user...");
         userRepository.save(user);
+        logger.info(FUNCTION_CONTEXT, "User saved: " + user);
 
         return new GenericResponse<>(null, "Register successful", "201", AuthenticationResponse.builder()
                                                                                                             .token(jwtService.generateToken(user, generateExtraClaims(user)))

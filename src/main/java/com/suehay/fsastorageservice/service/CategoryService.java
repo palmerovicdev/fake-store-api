@@ -8,15 +8,11 @@ import org.springframework.data.domain.Page;
 public interface CategoryService {
     GenericResponse<Category> saveCategory(Category category);
 
-    GenericResponse<Category> getCategoryById(String id);
-
-    GenericResponse<Category> getCategoryByName(String name);
+    GenericResponse<Category> getCategory(String id);
 
     GenericResponse<Page<Category>> getCategories(GenericPageRequest<String> request);
 
-    GenericResponse<Category> deleteCategoryByName(String name);
-
-    GenericResponse<Category> deleteCategory(String id);
+    GenericResponse<Category> deleteCategory(String id, String name);
 
     GenericResponse<Category> updateCategory(Category category);
 }

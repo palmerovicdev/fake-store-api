@@ -15,6 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Objects;
 
 @Tag(name = "Product", description = "Product controller")
 @RestController
@@ -29,32 +30,36 @@ public class ProductController {
             @ApiResponse(responseCode = "500", description = "Error finding products")
     }, method = "GET")
     @GetMapping("/get")
-    public ResponseEntity<GenericResponse<List<Product>>> getProducts(@RequestBody GenericPageRequest<String> filter) {
-        return ResponseEntity.ok(productService.getProducts(filter));
+    public ResponseEntity<GenericResponse<List<Product>>> getProducts(
+            @Parameter(description = "The number of the page.")
+            @RequestParam Integer page,
+            @Parameter(description = "The size of the page.")
+            @RequestParam Integer size,
+            @Parameter(description = "The name of the category.")
+            @RequestParam String filter
+                                                                     ) {
+        return ResponseEntity.ok(productService.getProducts(new GenericPageRequest<>(page, size, filter)));
     }
 
-    @Operation(summary = "Get product by id", description = "Get product by id", responses = {
+    @Operation(summary = "Get product by id or name.", description = "Get product by id or name.", responses = {
             @ApiResponse(responseCode = "200", description = "Product found"),
             @ApiResponse(responseCode = "404", description = "No product found"),
             @ApiResponse(responseCode = "500", description = "Error finding product")
     }, method = "GET")
-    @GetMapping("/get/{id}")
+    @GetMapping("/get")
     public ResponseEntity<GenericResponse<Product>> getProductById(
             @Parameter(description = "Product id")
-            @PathVariable @NotNull String id) {
-        return ResponseEntity.ok(productService.getProductById(id));
-    }
-
-    @Operation(summary = "Get product by name", description = "Get product by name", responses = {
-            @ApiResponse(responseCode = "200", description = "Product found"),
-            @ApiResponse(responseCode = "404", description = "No product found"),
-            @ApiResponse(responseCode = "500", description = "Error finding product")
-    }, method = "GET")
-    @GetMapping("/get/{name}")
-    public ResponseEntity<GenericResponse<Product>> getProductByName(
-            @Parameter(description = "Product name")
-            @PathVariable @NotNull String name) {
-        return ResponseEntity.ok(productService.getProductByName(name));
+            @RequestParam(required = false) Long id,
+            @Parameter(description = "Product title")
+            @RequestParam(required = false) String title) {
+        if (Objects.isNull(id) && Objects.isNull(title)) return ResponseEntity.badRequest().body(
+                new GenericResponse<>(
+                        "No id or title provided.",
+                        "You need to provide a nonnull id or title to get a single product.",
+                        HttpStatus.BAD_REQUEST.name(),
+                        null
+                ));
+        return ResponseEntity.ok(productService.getProduct(id, title));
     }
 
     @Operation(summary = "Save product", description = "Save product", responses = {
@@ -75,25 +80,24 @@ public class ProductController {
         return ResponseEntity.ok(productService.updateProduct(product));
     }
 
-    @Operation(summary = "Delete product", description = "Delete product", responses = {
+    @Operation(summary = "Delete product by id or title", description = "Delete product by id or name", responses = {
             @ApiResponse(responseCode = "200", description = "Product deleted"),
             @ApiResponse(responseCode = "500", description = "Error deleting product")
     }, method = "DELETE")
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/delete")
     public ResponseEntity<GenericResponse<String>> deleteProduct(
             @Parameter(description = "Product id")
-            @PathVariable @NotNull String id) {
-        return ResponseEntity.ok(productService.deleteProduct(id));
-    }
-
-    @Operation(summary = "Delete product by name", description = "Delete product by name", responses = {
-            @ApiResponse(responseCode = "200", description = "Product deleted"),
-            @ApiResponse(responseCode = "500", description = "Error deleting product")
-    }, method = "DELETE")
-    @DeleteMapping("/delete/{name}")
-    public ResponseEntity<GenericResponse<String>> deleteProductByName(
-            @Parameter(description = "Product name")
-            @PathVariable @NotNull String name) {
-        return ResponseEntity.ok(productService.deleteProductByName(name));
+            @RequestParam(required = false) Long id,
+            @Parameter(description = "Product title")
+            @RequestParam(required = false) String title
+                                                                ) {
+        if (Objects.isNull(id) && Objects.isNull(title)) return ResponseEntity.badRequest().body(
+                new GenericResponse<>(
+                        "No id or title provided.",
+                        "You need to provide a nonnull id or title to delete a product.",
+                        HttpStatus.BAD_REQUEST.name(),
+                        null
+                ));
+        return ResponseEntity.ok(productService.deleteProduct(id, title));
     }
 }
