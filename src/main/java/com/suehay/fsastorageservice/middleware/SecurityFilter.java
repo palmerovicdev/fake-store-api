@@ -63,7 +63,7 @@ public class SecurityFilter {
                             .requestMatchers("/swagger-ui.html").permitAll();
                     authConfig.anyRequest().denyAll();*/
                     authConfig.anyRequest().permitAll();
-                })  //TODO 4/1/24 palmerodev : add missing config
+                })
         ;
 
         return http.build();
