@@ -49,7 +49,7 @@ public class CategoryController {
             @ApiResponse(responseCode = "404", description = "No categories found"),
             @ApiResponse(responseCode = "500", description = "Error finding categories")
     }, method = "GET")
-    @GetMapping("/get")
+    @GetMapping("/getAll")
     public ResponseEntity<GenericResponse<?>> getCategories(@RequestBody GenericPageRequest<String> filter) {
         return ResponseEntity.ok(categoryService.getCategories(filter));
     }

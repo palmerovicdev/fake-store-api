@@ -46,7 +46,7 @@ public class ProductController {
             @ApiResponse(responseCode = "404", description = "No product found"),
             @ApiResponse(responseCode = "500", description = "Error finding product")
     }, method = "GET")
-    @GetMapping("/get")
+    @GetMapping("/getAll")
     public ResponseEntity<GenericResponse<Product>> getProductById(
             @Parameter(description = "Product id")
             @RequestParam(required = false) Long id,
