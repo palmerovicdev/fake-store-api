@@ -1,6 +1,7 @@
 package com.suehay.fsastorageservice.controller;
 
 import com.suehay.fsastorageservice.model.entity.Category;
+import com.suehay.fsastorageservice.model.request.CategoryRequest;
 import com.suehay.fsastorageservice.model.request.GenericPageRequest;
 import com.suehay.fsastorageservice.model.response.GenericResponse;
 import com.suehay.fsastorageservice.service.CategoryService;
@@ -28,7 +29,7 @@ public class CategoryController {
             @ApiResponse(responseCode = "500", description = "Error finding categories")
     }, method = "POST")
     @PostMapping("/save")
-    public ResponseEntity<GenericResponse<Category>> saveCategory(@RequestBody @NotNull Category category) {
+    public ResponseEntity<GenericResponse<Category>> saveCategory(@RequestBody @NotNull CategoryRequest category) {
         return ResponseEntity.status(HttpStatus.CREATED).body(categoryService.saveCategory(category));
     }
 
@@ -60,7 +61,7 @@ public class CategoryController {
             @ApiResponse(responseCode = "500", description = "Error updating category")
     }, method = "PUT")
     @PutMapping("/update")
-    public ResponseEntity<GenericResponse<Category>> updateCategory(@RequestBody @NotNull Category category) {
+    public ResponseEntity<GenericResponse<Category>> updateCategory(@RequestBody @NotNull CategoryRequest category) {
         return ResponseEntity.ok(categoryService.updateCategory(category));
     }
 

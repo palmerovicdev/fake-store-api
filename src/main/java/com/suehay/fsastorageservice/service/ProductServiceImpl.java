@@ -2,7 +2,10 @@ package com.suehay.fsastorageservice.service;
 
 import com.suehay.fsastorageservice.model.entity.Product;
 import com.suehay.fsastorageservice.model.request.GenericPageRequest;
+import com.suehay.fsastorageservice.model.request.ProductRequest;
+import com.suehay.fsastorageservice.model.response.GenericPageResponse;
 import com.suehay.fsastorageservice.model.response.GenericResponse;
+import com.suehay.fsastorageservice.repository.CategoryRepository;
 import com.suehay.fsastorageservice.repository.ProductRepository;
 import com.suehay.fsastorageservice.util.Logger;
 import lombok.RequiredArgsConstructor;
@@ -22,11 +25,12 @@ public class ProductServiceImpl implements ProductService {
     private final ProductRepository productRepository;
     private final Logger logger;
     private final String CONTEXT = "ProductService::";
+    private final CategoryRepository categoryRepository;
 
     @Override
-    public GenericResponse<List<Product>> getProducts(GenericPageRequest<String> request) {
+    public GenericPageResponse<List<Product>> getProducts(GenericPageRequest<String> request) {
         var FUNCTION_CONTEXT = CONTEXT + "getProducts";
-        var response = new GenericResponse<List<Product>>();
+        var response = new GenericPageResponse<List<Product>>();
 
         if (request.getFilter() != null) {
             logger.info(FUNCTION_CONTEXT, "Getting products...");
@@ -46,6 +50,8 @@ public class ProductServiceImpl implements ProductService {
             logger.info(FUNCTION_CONTEXT, "Products found.");
             response.setMessage("Products found with category name: " + request.getFilter());
             response.setStatus("200");
+            response.setPage(request.getPage());
+            response.setSize(request.getSize());
         }
         return response;
     }
@@ -85,33 +91,45 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public GenericResponse<Product> saveProduct(Product product) {
+    public GenericResponse<Product> saveProduct(ProductRequest product) {
         var FUNCTION_CONTEXT = CONTEXT + "saveProduct";
         var response = new GenericResponse<Product>();
         var addresses = fileStorageService.getAddressByNames(product.getImages());
 
+        var category = categoryRepository.findById(product.getCategory());
+        var productEntity = product.getEntity();
+        productEntity.setCategory(category.orElseThrow(() -> new RuntimeException("Category not found.")));
+
         logger.info(FUNCTION_CONTEXT, "Saving product...");
 
         product.setImages(addresses);
-        response.setData(productRepository.save(product));
-        response.setMessage("Product saved with id: " + product.getId());
+        response.setData(productRepository.save(productEntity));
+        response.setMessage("Product saved with id: " + productEntity.getId());
         response.setStatus("201");
         return response;
     }
 
     @Override
-    public GenericResponse<Product> updateProduct(Product product) {
+    public GenericResponse<Product> updateProduct(ProductRequest product) {
+        if (Objects.isNull(product.getId()))
+            return new GenericResponse<>("No id provided.", "You need to provide a nonnull id to update a product.", "400", null);
+
+
         var FUNCTION_CONTEXT = CONTEXT + "updateProduct";
         var response = new GenericResponse<Product>();
         var productData = productRepository.findById(product.getId());
 
+        var category = categoryRepository.findById(product.getCategory());
+        var productEntity = product.getEntity();
+
+        productEntity.setCategory(category.orElseThrow(() -> new RuntimeException("Category not found.")));
         logger.info(FUNCTION_CONTEXT, "Updating product...");
 
         if (productData.isPresent()) {
             logger.info(FUNCTION_CONTEXT, "Product saved.");
             var addresses = fileStorageService.getAddressByNames(product.getImages());
             product.setImages(addresses);
-            response.setData(productRepository.save(product));
+            response.setData(productRepository.save(product.getEntity()));
             response.setMessage("Product updated with id: " + product.getId());
             response.setStatus("200");
         } else {

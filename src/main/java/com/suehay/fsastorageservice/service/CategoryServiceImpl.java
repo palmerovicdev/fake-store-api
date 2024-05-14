@@ -1,6 +1,7 @@
 package com.suehay.fsastorageservice.service;
 
 import com.suehay.fsastorageservice.model.entity.Category;
+import com.suehay.fsastorageservice.model.request.CategoryRequest;
 import com.suehay.fsastorageservice.model.request.GenericPageRequest;
 import com.suehay.fsastorageservice.model.response.GenericResponse;
 import com.suehay.fsastorageservice.repository.CategoryRepository;
@@ -12,6 +13,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
@@ -23,7 +25,7 @@ public class CategoryServiceImpl implements CategoryService {
     private final String CONTEXT = "CategoryService::";
 
     @Override
-    public GenericResponse<Category> saveCategory(Category category) {
+    public GenericResponse<Category> saveCategory(CategoryRequest category) {
         var FUNCTION_CONTEXT = "saveCategory";
         var response = new GenericResponse<Category>();
 
@@ -31,9 +33,11 @@ public class CategoryServiceImpl implements CategoryService {
 
         var addresses = fileStorageService.getAddressByNames(List.of(category.getImage()));
 
+        var savedCategory = categoryRepository.save(category.getEntity());
+
         category.setImage(!addresses.isEmpty() ? addresses.get(0) : null);
-        response.setData(categoryRepository.save(category));
-        response.setMessage("Category saved with id: " + category.getId());
+        response.setData(savedCategory);
+        response.setMessage("Category saved with id: " + savedCategory.getId());
         response.setStatus("200");
 
         logger.info(FUNCTION_CONTEXT, "Category saved.");
@@ -100,7 +104,10 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public GenericResponse<Category> updateCategory(Category category) {
+    public GenericResponse<Category> updateCategory(CategoryRequest category) {
+        if (Objects.isNull(category.getId()))
+            return new GenericResponse<>("No id provided.", "You need to provide a nonnull id to update a category.", "400", null);
+
         var FUNCTION_CONTEXT = CONTEXT + "updateCategory";
         var response = new GenericResponse<Category>();
 
@@ -108,10 +115,13 @@ public class CategoryServiceImpl implements CategoryService {
         category.setImage(!addresses.isEmpty() ? addresses.get(0) : null);
 
         logger.info(FUNCTION_CONTEXT, "Updating category with id: " + category.getId());
-        response.setData(categoryRepository.save(category));
-        response.setMessage("Category updated with id: " + category.getId());
+
+        var updatedCategory = categoryRepository.save(category.getEntity());
+
+        response.setData(updatedCategory);
+        response.setMessage("Category updated with id: " + updatedCategory.getId());
         response.setStatus("200");
-        logger.info(FUNCTION_CONTEXT, "Category updated with id: " + category.getId());
+        logger.info(FUNCTION_CONTEXT, "Category updated with id: " + updatedCategory.getId());
         return response;
     }
 }
