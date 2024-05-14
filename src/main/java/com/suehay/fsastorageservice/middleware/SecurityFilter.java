@@ -30,7 +30,7 @@ public class SecurityFilter {
                 .addFilterBefore(jwtAuthentivationFilter, UsernamePasswordAuthenticationFilter.class)
                 .authorizeHttpRequests(authConfig -> {
                     // Auth routes
-                    /*authConfig
+                    authConfig
                             .requestMatchers(HttpMethod.POST, "/auth/register").permitAll()
                             .requestMatchers(HttpMethod.POST, "/auth/register/admin").hasAnyAuthority("CREATE_ADMIN")
                             .requestMatchers(HttpMethod.POST, "/auth/login").permitAll()
@@ -61,8 +61,7 @@ public class SecurityFilter {
                             .requestMatchers("/swagger-ui/**").permitAll()
                             .requestMatchers("/v3/api-docs/**").permitAll()
                             .requestMatchers("/swagger-ui.html").permitAll();
-                    authConfig.anyRequest().denyAll();*/
-                    authConfig.anyRequest().permitAll();
+                    authConfig.anyRequest().denyAll();
                 })
         ;
 
