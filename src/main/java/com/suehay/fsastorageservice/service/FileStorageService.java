@@ -9,7 +9,7 @@ import java.util.List;
 public interface FileStorageService {
     GenericResponse<String> save(UploadRequest file);
 
-    GenericResponse<ImageData> findByName(String name);
+    GenericResponse<ImageData> getByName(String name);
 
     GenericResponse<List<ImageData>> findAllByNameIn(List<String> names);
 

@@ -1,6 +1,7 @@
 package com.suehay.fsastorageservice.controller;
 
 import com.suehay.fsastorageservice.model.entity.Category;
+import com.suehay.fsastorageservice.model.request.CategoryRequest;
 import com.suehay.fsastorageservice.model.request.GenericPageRequest;
 import com.suehay.fsastorageservice.model.response.GenericResponse;
 import com.suehay.fsastorageservice.service.CategoryService;
@@ -14,6 +15,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Objects;
+
 @Tag(name = "Category", description = "Category controller")
 @RestController
 @RequestMapping("/category")
@@ -26,7 +29,7 @@ public class CategoryController {
             @ApiResponse(responseCode = "500", description = "Error finding categories")
     }, method = "POST")
     @PostMapping("/save")
-    public ResponseEntity<GenericResponse<Category>> saveCategory(@RequestBody @NotNull Category category) {
+    public ResponseEntity<GenericResponse<Category>> saveCategory(@RequestBody @NotNull CategoryRequest category) {
         return ResponseEntity.status(HttpStatus.CREATED).body(categoryService.saveCategory(category));
     }
 
@@ -35,11 +38,11 @@ public class CategoryController {
             @ApiResponse(responseCode = "404", description = "No category found"),
             @ApiResponse(responseCode = "500", description = "Error finding category")
     }, method = "GET")
-    @GetMapping("/get/{id}")
+    @GetMapping("/get")
     public ResponseEntity<GenericResponse<Category>> getCategoryById(
             @Parameter(description = "Category id")
-            @PathVariable @NotNull String id) {
-        return ResponseEntity.ok(categoryService.getCategoryById(id));
+            @RequestParam @NotNull String id) {
+        return ResponseEntity.ok(categoryService.getCategory(id));
     }
 
     @Operation(summary = "Get all categories", description = "Get all categories", responses = {
@@ -47,7 +50,7 @@ public class CategoryController {
             @ApiResponse(responseCode = "404", description = "No categories found"),
             @ApiResponse(responseCode = "500", description = "Error finding categories")
     }, method = "GET")
-    @GetMapping("/findAll")
+    @GetMapping("/getAll")
     public ResponseEntity<GenericResponse<?>> getCategories(@RequestBody GenericPageRequest<String> filter) {
         return ResponseEntity.ok(categoryService.getCategories(filter));
     }
@@ -58,32 +61,28 @@ public class CategoryController {
             @ApiResponse(responseCode = "500", description = "Error updating category")
     }, method = "PUT")
     @PutMapping("/update")
-    public ResponseEntity<GenericResponse<Category>> updateCategory(@RequestBody @NotNull Category category) {
+    public ResponseEntity<GenericResponse<Category>> updateCategory(@RequestBody @NotNull CategoryRequest category) {
         return ResponseEntity.ok(categoryService.updateCategory(category));
     }
 
-    @Operation(summary = "Delete category", description = "Delete category", responses = {
+    @Operation(summary = "Delete category by id or name.", description = "Delete category by id or name.", responses = {
             @ApiResponse(responseCode = "200", description = "Category deleted"),
             @ApiResponse(responseCode = "404", description = "No category found"),
             @ApiResponse(responseCode = "500", description = "Error deleting category")
     }, method = "DELETE")
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/delete")
     public ResponseEntity<GenericResponse<Category>> deleteCategory(
             @Parameter(description = "Category id")
-            @PathVariable @NotNull String id) {
-        return ResponseEntity.ok(categoryService.deleteCategory(id));
-    }
-
-    @Operation(summary = "Delete category by name", description = "Delete category by name", responses = {
-            @ApiResponse(responseCode = "200", description = "Category deleted"),
-            @ApiResponse(responseCode = "404", description = "No category found"),
-            @ApiResponse(responseCode = "500", description = "Error deleting category")
-    }, method = "DELETE")
-    @DeleteMapping("/delete/{name}")
-    public ResponseEntity<GenericResponse<Category>> deleteCategoryByName(
+            @RequestParam(required = false) String id,
             @Parameter(description = "Category name")
-            @PathVariable @NotNull String name) {
-        return ResponseEntity.ok(categoryService.deleteCategoryByName(name));
+            @RequestParam(required = false) String name) {
+        if (Objects.isNull(id) && Objects.isNull(name)) return ResponseEntity.badRequest().body(
+                new GenericResponse<>(
+                        "No id or name provided.",
+                        "You need to provide a nonnull id or name to delete a category.",
+                        HttpStatus.BAD_REQUEST.name(),
+                        null
+                ));
+        return ResponseEntity.ok(categoryService.deleteCategory(id, name));
     }
-
 }

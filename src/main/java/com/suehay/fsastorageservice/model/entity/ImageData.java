@@ -2,6 +2,12 @@ package com.suehay.fsastorageservice.model.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+
+import java.sql.Timestamp;
 
 @Getter
 @Setter
@@ -28,4 +34,14 @@ public class ImageData {
     @Lob
     @Column(name = "data", nullable = false, length = 10*1024*1024)
     private byte[] data;
+
+    @CreatedDate
+    @CreationTimestamp
+    @Column(name = "created_at")
+    private Timestamp createdAt;
+
+    @LastModifiedDate
+    @UpdateTimestamp
+    @Column(name = "updated_at")
+    private Timestamp updatedAt;
 }

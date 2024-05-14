@@ -36,7 +36,7 @@ public class FileStorageServiceImpl implements FileStorageService {
     }
 
     @Override
-    public GenericResponse<ImageData> findByName(String name) {
+    public GenericResponse<ImageData> getByName(String name) {
         var optionalImageData = imageDataRepository.findByName(name);
         try {
             var imageData = optionalImageData

@@ -1,6 +1,6 @@
 package com.suehay.fsastorageservice.middleware;
 
-import com.suehay.fsastorageservice.config.JwtAuthentivationFilter;
+import com.suehay.fsastorageservice.config.JwtAuthenticationFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -19,7 +19,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class SecurityFilter {
 
     private final AuthenticationProvider authenticationProvider;
-    private final JwtAuthentivationFilter jwtAuthentivationFilter;
+    private final JwtAuthenticationFilter jwtAuthenticationFilter;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -27,7 +27,7 @@ public class SecurityFilter {
                 .csrf(AbstractHttpConfigurer::disable)
                 .sessionManagement(c -> c.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authenticationProvider(authenticationProvider)
-                .addFilterBefore(jwtAuthentivationFilter, UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
                 .authorizeHttpRequests(authConfig -> {
                     // Auth routes
                     authConfig
@@ -62,7 +62,7 @@ public class SecurityFilter {
                             .requestMatchers("/v3/api-docs/**").permitAll()
                             .requestMatchers("/swagger-ui.html").permitAll();
                     authConfig.anyRequest().denyAll();
-                })  //TODO 4/1/24 palmerodev : add missing config
+                })
         ;
 
         return http.build();
