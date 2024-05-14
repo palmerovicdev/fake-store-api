@@ -1,7 +1,6 @@
 package com.suehay.fsastorageservice.model.entity;
 
 import com.suehay.fsastorageservice.model.enums.Role;
-import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;

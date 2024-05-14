@@ -27,7 +27,6 @@ public class AuthServiceImpl implements AuthService {
     private final JwtService jwtService;
     private final PasswordEncoder passwordEncoder;
     private final Logger logger;
-    private final String CONTEXT = "AuthService";
 
     @Override
     public GenericResponse<AuthenticationResponse> login(AuthenticationRequest authenticationRequest) {
@@ -67,10 +66,10 @@ public class AuthServiceImpl implements AuthService {
         logger.info(FUNCTION_CONTEXT, "User saved: " + user);
 
         return new GenericResponse<>(null, "User registered successfully", "201", AuthenticationResponse.builder()
-                                                                                                            .token(jwtService.generateToken(user, generateExtraClaims(user)))
-                                                                                                            .username(user.getUsername())
-                                                                                                            .role(user.getRole().name())
-                                                                                                            .build());
+                                                                                                        .token(jwtService.generateToken(user, generateExtraClaims(user)))
+                                                                                                        .username(user.getUsername())
+                                                                                                        .role(user.getRole().name())
+                                                                                                        .build());
     }
 
     @Override
@@ -86,9 +85,9 @@ public class AuthServiceImpl implements AuthService {
         logger.info(FUNCTION_CONTEXT, "User saved: " + user);
 
         return new GenericResponse<>(null, "Register successful", "201", AuthenticationResponse.builder()
-                                                                                                            .token(jwtService.generateToken(user, generateExtraClaims(user)))
-                                                                                                            .username(user.getUsername())
-                                                                                                            .role(user.getRole().name())
-                                                                                                            .build());
+                                                                                               .token(jwtService.generateToken(user, generateExtraClaims(user)))
+                                                                                               .username(user.getUsername())
+                                                                                               .role(user.getRole().name())
+                                                                                               .build());
     }
 }
