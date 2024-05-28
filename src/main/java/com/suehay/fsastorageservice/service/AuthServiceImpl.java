@@ -33,10 +33,10 @@ public class AuthServiceImpl implements AuthService {
         var FUNCTION_CONTEXT = "login";
 
         logger.info(FUNCTION_CONTEXT, "Starting...");
-        var passwordAuthenticationToken = new UsernamePasswordAuthenticationToken(authenticationRequest.uasername(), authenticationRequest.password());
+        var passwordAuthenticationToken = new UsernamePasswordAuthenticationToken(authenticationRequest.username(), authenticationRequest.password());
         authenticationManager.authenticate(passwordAuthenticationToken);
 
-        var user = userRepository.findByUsername(authenticationRequest.uasername());
+        var user = userRepository.findByUsername(authenticationRequest.username());
         logger.info(FUNCTION_CONTEXT, "User found: " + user);
         return user.map(value -> new GenericResponse<>(null, "Login successful", "200", AuthenticationResponse.builder()
                                                                                                               .token(jwtService.generateToken(value, generateExtraClaims(value)))
@@ -57,7 +57,7 @@ public class AuthServiceImpl implements AuthService {
     public GenericResponse<AuthenticationResponse> register(AuthenticationRequest authenticationRequest) {
         var FUNCTION_CONTEXT = "register";
         var user = new User();
-        user.setUsername(authenticationRequest.uasername());
+        user.setUsername(authenticationRequest.username());
         user.setPassword(passwordEncoder.encode(authenticationRequest.password()));
         user.setRole(Role.USER);
 
@@ -76,7 +76,7 @@ public class AuthServiceImpl implements AuthService {
     public GenericResponse<AuthenticationResponse> registerAdmin(AuthenticationRequest authenticationRequest) {
         var FUNCTION_CONTEXT = "registerAdmin";
         var user = new User();
-        user.setUsername(authenticationRequest.uasername());
+        user.setUsername(authenticationRequest.username());
         user.setPassword(passwordEncoder.encode(authenticationRequest.password()));
         user.setRole(Role.ADMIN);
 

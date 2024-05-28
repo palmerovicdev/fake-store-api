@@ -51,8 +51,20 @@ public class CategoryController {
             @ApiResponse(responseCode = "500", description = "Error finding categories")
     }, method = "GET")
     @GetMapping("/getAll")
-    public ResponseEntity<GenericResponse<?>> getCategories(@RequestBody GenericPageRequest<String> filter) {
-        return ResponseEntity.ok(categoryService.getCategories(filter));
+    public ResponseEntity<GenericResponse<?>> getCategories(
+            @Parameter(description = "The number of the page.")
+            @RequestParam(name = "page", required = false) Integer page,
+            @Parameter(description = "The size of the page.")
+            @RequestParam(name = "size", required = false) Integer size,
+            @Parameter(description = "The filter of the page.")
+            @RequestParam(name = "filter", required = false) String pattern) {
+
+        page = Objects.isNull(page) ? 0 : page;
+        size = Objects.isNull(size) ? 10 : size;
+
+        return ResponseEntity.ok(categoryService.getCategories(new GenericPageRequest<>(
+                page, size, pattern
+        )));
     }
 
     @Operation(summary = "Update category", description = "Update category", responses = {

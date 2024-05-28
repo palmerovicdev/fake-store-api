@@ -31,7 +31,7 @@ public class ProductController {
             @ApiResponse(responseCode = "404", description = "No products found"),
             @ApiResponse(responseCode = "500", description = "Error finding products")
     }, method = "GET")
-    @GetMapping("/get")
+    @GetMapping("/getAll")
     public ResponseEntity<GenericPageResponse<List<Product>>> getProducts(
             @Parameter(description = "The number of the page.")
             @RequestParam(required = false) Integer page,
@@ -51,7 +51,7 @@ public class ProductController {
             @ApiResponse(responseCode = "404", description = "No product found"),
             @ApiResponse(responseCode = "500", description = "Error finding product")
     }, method = "GET")
-    @GetMapping("/getAll")
+    @GetMapping("/get")
     public ResponseEntity<GenericResponse<Product>> getProductById(
             @Parameter(description = "Product id")
             @RequestParam(required = false) Long id,
